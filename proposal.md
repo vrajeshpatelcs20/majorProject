@@ -2,7 +2,7 @@
 
 ## Description
 
-Here i will describe what o'm going to build...
+Here i will describe what I'm going to build...
 
 ## Must Have List
 
