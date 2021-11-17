@@ -6,12 +6,13 @@ I want to have the previous 2 games I made (snake and the grid-based game) to be
 
 ## Must Have List
 
-- A battle ship map
-- second thing
-- etc
+- A Working Battleship Map
+- be able to display the ships
+- be able to place them and rotate them
+- 
 
 ## Nice to Have Stuff
 
-- more stuff
-- other stuff
-- etc
+- have a button to randomly place them
+- 
+- 
