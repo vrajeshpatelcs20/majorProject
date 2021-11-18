@@ -9,8 +9,8 @@ I want to have the previous 2 games I made (snake and the grid-based game) to be
 - A Working Battleship Map
 - be able to display the ships
 - be able to place them and rotate them
-- 
-
+- make the ships invisable after the game has begun
+- be able to click and shoot if the specified location
 ## Nice to Have Stuff
 
 - have a button to randomly place them
