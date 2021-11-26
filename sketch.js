@@ -32,6 +32,11 @@ function starterScreen() {
 
 }
 
+function levelSelector(){
+  if(stateOfGame === loadingScreen){
+  }
+}
+
 function draw() {
   stateChecker();
 }
