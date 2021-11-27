@@ -21,7 +21,7 @@ function stateChecker() {
 function starterScreen() {
   background(0);
   rectMode(CENTER);
-  stroke("blue");
+  stroke(theColor);
   fill(255);
   rect(width / 4 * 2, height / 2, 200, 100);
   rect(width / 4 * 3, height / 2, 200, 100);
@@ -34,7 +34,8 @@ function starterScreen() {
   textAlign(CENTER);
   // eslint-disable-next-line no-extra-parens
   if((mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 &&mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100)){
-    theColor = 255;
+    theColor = "blue";
+    fillColor
   }
   else{
     theColor = 0;
