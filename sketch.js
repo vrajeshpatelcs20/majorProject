@@ -5,17 +5,15 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let loadingScreen;
-let stateOfGame = loadingScreen;
+let stateOfGame = "loadingScreen";
 let theColor = 0;
 let fillColor = 0;
-let 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
 function stateChecker() {
-  if (stateOfGame === loadingScreen) {
+  if (stateOfGame === "loadingScreen") {
     starterScreen();
   }
 }
@@ -45,10 +43,14 @@ function starterScreen() {
   }
 }
 
-// function mousePressed() {
-//   if(stateOfGame === loadingScreen){
-//   }
-// }
+function mousePressed() {
+  if(stateOfGame === "loadingScreen"){
+    if(mouseY < height / 2 + 50 && mouseY > height / 2 - 50 &&mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100){
+      stateOfGame === "battleship";
+
+    }
+  }
+}
 
 function draw() {
   stateChecker();
