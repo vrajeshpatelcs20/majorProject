@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-parens */
 // Major Project/ Battleship
 // Vrajesh Patel
 // 2021/2022
@@ -6,15 +7,17 @@
 // - describe what you did to take this project "above and beyond"
 
 let stateOfGame;
-let grid;
+let gridForPlayer1;
+let gridForPlayer2;
 let gridSize = 11;
 let theColor = 0;
 let fillColor = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  grid = createGridOfPlayer1(gridSize, gridSize);
-  stateOfGame = "loadingScreen";
+  gridForPlayer1 = createGridOfPlayer1(gridSize, gridSize);
+  gridForPlayer2 = createGridOfPlayer1(gridSize, gridSize);
+  stateOfGame = "battleshipGame";
 
 }
 function stateChecker() {
@@ -43,7 +46,6 @@ function starterScreen() {
   text("Undecided", width / 4, height / 2 + 10);
   textSize(width / 40);
   textAlign(CENTER);
-  // eslint-disable-next-line no-extra-parens
   if ((mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100)) {
     theColor = "blue";
     fillColor = 0;
@@ -61,38 +63,65 @@ function pregameBattleship() {
 }
 
 function createGridOfPlayer1(rows, cols) {
-  let grid = [];
+  let gridForPlayer1 = [];
   for (let y = 0; y < rows; y++) {
-    grid.push([]);
+    gridForPlayer1.push([]);
     for (let x = 0; x < cols; x++) {
-      grid[y].push(0);
+      gridForPlayer1[y].push(0);
     }
   }
-  return grid;
+  return gridForPlayer1;
 }
 
-function displayGrid() {
-  let cellWidth = (width- 1000) / gridSize;
+function createGridOfPlayer2(rows, cols) {
+  let gridForPlayer2 = [];
+  for (let y = 0; y < rows; y++) {
+    gridForPlayer2.push([]);
+    for (let x = 0; x < cols; x++) {
+      gridForPlayer2[y].push(0);
+    }
+  }
+  return gridForPlayer2;
+}
+
+
+function displayGridForPlayer2() {
+  let cellWidth = (width - 1000) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
-      if (grid[y][x] === 0) {
+      if (gridForPlayer2[y][x] === 0) {
         fill("white");
       }
-      else if (grid[y][x] === 1) {
-        fill("black");
-      }
+      // else if (gridForPlayer2;[y][x] === 1) {
+      //   fill("black");
+      // }
       // noStroke();
-      rect(x * cellWidth + 100, y * cellWidth + 100, cellWidth, cellWidth);
+      rect(x * cellWidth + ( width/ 1.75) , y * cellWidth + 100, cellWidth, cellWidth);
     }
   }
 }
 
-function battleshipGame(){
+function displayGridForPlayer1() {
+  let cellWidth = (width - 1000) / gridSize;
+  for (let y = 0; y < gridSize; y++) {
+    for (let x = 0; x < gridSize; x++) {
+      if (gridForPlayer1[y][x] === 0) {
+        fill("white");
+      }
+      // else if (gridForPlayer1[y][x] === 1) {
+      //   fill("black");
+      // }
+      // noStroke();
+      rect(x * cellWidth + width / 50, y * cellWidth + 100, cellWidth, cellWidth);
+    }
+  }
+}
+
+function battleshipGame() {
   background(0);
   rectMode(CORNER);
-  displayGrid();
-
-
+  displayGridForPlayer1();
+  displayGridForPlayer2();
 
 }
 
