@@ -6,11 +6,14 @@
 // - describe what you did to take this project "above and beyond"
 
 let stateOfGame;
+let grid;
+let gridSize = 11;
 let theColor = 0;
 let fillColor = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  grid = createGridOfPlayer1(gridSize, gridSize);
   stateOfGame = "loadingScreen";
 
 }
@@ -21,10 +24,8 @@ function stateChecker() {
   if (stateOfGame === "instructionsOfBattleship") {
     pregameBattleship();
   }
-  if (stateOfGame === "battleshipGame"){
-
-    background(0);
-    battleshipGame();  
+  if (stateOfGame === "battleshipGame") {
+    battleshipGame();
   }
 }
 
@@ -58,8 +59,40 @@ function pregameBattleship() {
   background(255);
   text("Press Space to Countine", width / 2, 100);
 }
-battleshipGame(){
-  
+
+function createGridOfPlayer1(rows, cols) {
+  let grid = [];
+  for (let y = 0; y < rows; y++) {
+    grid.push([]);
+    for (let x = 0; x < cols; x++) {
+      grid[y].push(0);
+    }
+  }
+  return grid;
+}
+
+function displayGrid() {
+  let cellWidth = (width- 1000) / gridSize;
+  for (let y = 0; y < gridSize; y++) {
+    for (let x = 0; x < gridSize; x++) {
+      if (grid[y][x] === 0) {
+        fill("white");
+      }
+      else if (grid[y][x] === 1) {
+        fill("black");
+      }
+      // noStroke();
+      rect(x * cellWidth + 100, y * cellWidth + 100, cellWidth, cellWidth);
+    }
+  }
+}
+
+function battleshipGame(){
+  rectMode(CORNER);
+  displayGrid();
+
+
+
 }
 
 function mousePressed() {
