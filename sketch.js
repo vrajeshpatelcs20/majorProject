@@ -88,6 +88,7 @@ function displayGrid() {
 }
 
 function battleshipGame(){
+  background(0);
   rectMode(CORNER);
   displayGrid();
 
