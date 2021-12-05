@@ -5,16 +5,20 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let stateOfGame = "loadingScreen";
+let stateOfGame;
 let theColor = 0;
 let fillColor = 0;
 
 function setup() {
+  stateOfGame = "loadingScreen";
   createCanvas(windowWidth, windowHeight);
 }
 function stateChecker() {
   if (stateOfGame === "loadingScreen") {
     starterScreen();
+  }
+  if(stateOfGame === "battleship"){
+    background(255);
   }
 }
 
@@ -31,23 +35,24 @@ function starterScreen() {
   text("Snake", width / 4 * 2, height / 2 + 10);
   text("Undecided", width / 4, height / 2 + 10);
   textSize(40);
-  textAlign(CENTER); 
+  textAlign(CENTER);
   // eslint-disable-next-line no-extra-parens
-  if((mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 &&mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100)){
+  if ((mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100)) {
     theColor = "blue";
     fillColor = 0;
   }
-  else{
+  else {
     theColor = 0;
     fillColor = "blue";
   }
 }
 
-function mousePressed() {
-  if(stateOfGame === "loadingScreen"){
-    if(mouseY < height / 2 + 50 && mouseY > height / 2 - 50 &&mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100){
-      stateOfGame === "battleship";
 
+
+function mousePressed() {
+  stateOfGame === "battleship";
+  if (stateOfGame === "loadingScreen") {
+    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
     }
   }
 }
