@@ -87,7 +87,7 @@ function createGridOfPlayer2(rows, cols) {
 
 
 function displayGridForPlayer2() {
-  let cellWidth = (width - 1000) / gridSize;
+  let cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
       if (gridForPlayer2[y][x] === 0) {
@@ -103,7 +103,7 @@ function displayGridForPlayer2() {
 }
 
 function displayGridForPlayer1() {
-  let cellWidth = (width - 1000) / gridSize;
+  let cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
       if (gridForPlayer1[y][x] === 0) {
