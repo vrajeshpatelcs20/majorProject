@@ -7,6 +7,7 @@
 // - describe what you did to take this project "above and beyond"
 
 let stateOfGame;
+let player1 = true;
 let gridForPlayer1;
 let gridForPlayer2;
 let gridSize = 11;
@@ -16,9 +17,9 @@ let fillColor = 0;
 function setup() {
   stateOfGame = "loadingScreen";
   createCanvas(windowWidth, windowHeight);
-  gridForPlayer1 = createGridOfPlayer1(gridSize, gridSize);
-  gridForPlayer2 = createGridOfPlayer1(gridSize, gridSize);
-  stateOfGame = "battleshipGame";
+  gridForPlayer1 = createGridOfPlayer(gridSize, gridSize);
+  gridForPlayer2 = createGridOfPlayer(gridSize, gridSize);
+  // stateOfGame = "battleshipGame";
 
 }
 function stateChecker() {
@@ -63,7 +64,7 @@ function pregameBattleship() {
   text("Press Space to Countine", width / 2, 100);
 }
 
-function createGridOfPlayer1(rows, cols) {
+function createGridOfPlayer(rows, cols) {
   let gridForPlayer1 = [];
   for (let y = 0; y < rows; y++) {
     gridForPlayer1.push([]);
@@ -74,16 +75,6 @@ function createGridOfPlayer1(rows, cols) {
   return gridForPlayer1;
 }
 
-function createGridOfPlayer2(rows, cols) {
-  let gridForPlayer2 = [];
-  for (let y = 0; y < rows; y++) {
-    gridForPlayer2.push([]);
-    for (let x = 0; x < cols; x++) {
-      gridForPlayer2[y].push(0);
-    }
-  }
-  return gridForPlayer2;
-}
 
 
 function displayGridForPlayer2() {
@@ -121,9 +112,13 @@ function displayGridForPlayer1() {
 function battleshipGame() {
   background(0);
   rectMode(CORNER);
-  displayGridForPlayer1();
-  displayGridForPlayer2();
-
+  if (player1){
+    displayGridForPlayer1();
+  }
+  if (!player1){
+    displayGridForPlayer2();
+  }
+  
 }
 
 function mousePressed() {
@@ -133,6 +128,7 @@ function mousePressed() {
 
     }
   }
+  player1 = !player1;
 }
 
 function keyPressed() {
