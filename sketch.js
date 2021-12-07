@@ -19,8 +19,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   gridForPlayer1 = createGridOfPlayer(gridSize, gridSize);
   gridForPlayer2 = createGridOfPlayer(gridSize, gridSize);
-  // stateOfGame = "battleshipGame";
-
+  stateOfGame = "battleshipGame";
 }
 function stateChecker() {
   if (stateOfGame === "loadingScreen") {
@@ -88,8 +87,15 @@ function displayGridForPlayer2() {
       //   fill("black");
       // }
       // noStroke();
-      rect(x * cellWidth + ( width/ 1.75) , y * cellWidth + 100, cellWidth, cellWidth);
+      fill("blue");
+      rect(x * cellWidth + (width / 1.75), y * cellWidth + 100, cellWidth, cellWidth);
     }
+    fill(0);
+    textSize(50);
+    textAlign(CENTER);
+    text(y,cellWidth /2 + (width / 1.75), y * cellWidth + 150);
+    text(y, y * cellWidth + (width/ 1.8) + 59, cellWidth + 95);
+    fill(0);
   }
 }
 
@@ -106,26 +112,30 @@ function displayGridForPlayer1() {
       // noStroke();
       rect(x * cellWidth + width / 50, y * cellWidth + 100, cellWidth, cellWidth);
     }
+    fill(0);
+    textSize(50);
+    textAlign(CENTER);
+    text(y, cellWidth, y * cellWidth + 150);
+    text(y, y * cellWidth + 59, cellWidth + 95);
+    fill(0);
   }
 }
 
 function battleshipGame() {
   background(0);
   rectMode(CORNER);
-  if (player1){
+  if (player1) {
     displayGridForPlayer1();
   }
-  if (!player1){
+  if (!player1) {
     displayGridForPlayer2();
   }
-  
 }
 
 function mousePressed() {
   if (stateOfGame === "loadingScreen") {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
       stateOfGame = "instructionsOfBattleship";
-
     }
   }
   player1 = !player1;
