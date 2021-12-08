@@ -89,12 +89,13 @@ function displayGridForPlayer2() {
       // noStroke();
       fill("blue");
       rect(x * cellWidth + (width / 1.75), y * cellWidth + 100, cellWidth, cellWidth);
+      rect(0 * cellWidth + (width / 1.75), 0 * cellWidth + 100, cellWidth, cellWidth);
     }
     fill(0);
-    textSize(50);
+    textSize(cellWidth);
     textAlign(CENTER);
     text(y,cellWidth /2 + (width / 1.75), y * cellWidth + 150);
-    text(y, y * cellWidth + (width/ 1.8) + 59, cellWidth + 95);
+    text(y, y * cellWidth + (width/ 1.8) + 50, cellWidth + 90);
     fill(0);
   }
 }
@@ -111,9 +112,10 @@ function displayGridForPlayer1() {
       // }
       // noStroke();
       rect(x * cellWidth + width / 50, y * cellWidth + 100, cellWidth, cellWidth);
+      rect(0 * cellWidth + width / 50, 0 * cellWidth + 100, cellWidth, cellWidth);
     }
     fill(0);
-    textSize(50);
+    textSize(cellWidth);
     textAlign(CENTER);
     text(y, cellWidth, y * cellWidth + 150);
     text(y, y * cellWidth + 59, cellWidth + 95);
