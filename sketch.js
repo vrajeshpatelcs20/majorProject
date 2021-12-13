@@ -7,6 +7,7 @@
 // - describe what you did to take this project "above and beyond"
 
 let stateOfGame;
+let numbersToLetters = new Map();
 let player1 = true;
 let gridForPlayer1;
 let gridForPlayer2;
@@ -19,7 +20,22 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   gridForPlayer1 = createGridOfPlayer(gridSize, gridSize);
   gridForPlayer2 = createGridOfPlayer(gridSize, gridSize);
-  stateOfGame = "battleshipGame";
+  // stateOfGame = "battleshipGame";
+  setupOfMap();
+}
+
+
+function setupOfMap() {
+  numbersToLetters.set(1, "A");
+  numbersToLetters.set(2, "B");
+  numbersToLetters.set(3, "C");
+  numbersToLetters.set(4, "D");
+  numbersToLetters.set(5, "E");
+  numbersToLetters.set(6, "F");
+  numbersToLetters.set(7, "G");
+  numbersToLetters.set(8, "H");
+  numbersToLetters.set(9, "I");
+  numbersToLetters.set(10, "J");
 }
 function stateChecker() {
   if (stateOfGame === "loadingScreen") {
@@ -94,8 +110,8 @@ function displayGridForPlayer2() {
     fill(0);
     textSize(cellWidth);
     textAlign(CENTER);
-    text(y,cellWidth /2 + (width / 1.75), y * cellWidth + 150);
-    text(y, y * cellWidth + (width/ 1.8) + 50, cellWidth + 90);
+    text(y, cellWidth / 2 + (width / 1.75), y * cellWidth + 150);
+    text(numbersToLetters.get(y), y * cellWidth + (width / 1.8) + 50, cellWidth + 90);
     fill(0);
   }
 }
@@ -118,7 +134,7 @@ function displayGridForPlayer1() {
     textSize(cellWidth);
     textAlign(CENTER);
     text(y, cellWidth, y * cellWidth + 150);
-    text(y, y * cellWidth + 59, cellWidth + 95);
+    text(numbersToLetters.get(y), y * cellWidth + 59, cellWidth + 95);
     fill(0);
   }
 }
