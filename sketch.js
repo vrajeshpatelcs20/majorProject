@@ -6,7 +6,7 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let stateOfGame;
+let stateOfGame, cellWidth;
 let numbersToLetters = new Map();
 let player1 = true;
 let gridForPlayer1;
@@ -20,7 +20,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   gridForPlayer1 = createGridOfPlayer(gridSize, gridSize);
   gridForPlayer2 = createGridOfPlayer(gridSize, gridSize);
-  // stateOfGame = "battleshipGame";
+  stateOfGame = "battleshipGame";
   setupOfMap();
 }
 
@@ -90,20 +90,21 @@ function createGridOfPlayer(rows, cols) {
   return gridForPlayer1;
 }
 
-
-
 function displayGridForPlayer2() {
-  let cellWidth = (width / 2.5) / gridSize;
+  cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
       if (gridForPlayer2[y][x] === 0) {
+        fill("blue");
+      }
+      if (gridForPlayer2[y][x] === 1) {
         fill("white");
       }
+
       // else if (gridForPlayer2;[y][x] === 1) {
       //   fill("black");
       // }
       // noStroke();
-      fill("blue");
       rect(x * cellWidth + (width / 1.75), y * cellWidth + 100, cellWidth, cellWidth);
       rect(0 * cellWidth + (width / 1.75), 0 * cellWidth + 100, cellWidth, cellWidth);
     }
@@ -117,15 +118,15 @@ function displayGridForPlayer2() {
 }
 
 function displayGridForPlayer1() {
-  let cellWidth = (width / 2.5) / gridSize;
+  cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
       if (gridForPlayer1[y][x] === 0) {
         fill("white");
       }
-      // else if (gridForPlayer1[y][x] === 1) {
-      //   fill("black");
-      // }
+      else if (gridForPlayer1[y][x] === 1) {
+        fill("black");
+      }
       // noStroke();
       rect(x * cellWidth + width / 50, y * cellWidth + 100, cellWidth, cellWidth);
       rect(0 * cellWidth + width / 50, 0 * cellWidth + 100, cellWidth, cellWidth);
@@ -156,7 +157,15 @@ function mousePressed() {
       stateOfGame = "instructionsOfBattleship";
     }
   }
-  player1 = !player1;
+  // player1 = !player1;
+  let cellX = Math.floor(mouseX / cellWidth);
+  let cellY = Math.floor((mouseY- 100 )/ cellWidth);
+  if (gridForPlayer1[cellY][cellX] === 0) {
+    gridForPlayer1[cellY][cellX] = 1;
+  }
+  else if (gridForPlayer1[cellY][cellX] === 1) {
+    gridForPlayer1[cellY][cellX] = 0;
+  }
 }
 
 function keyPressed() {
