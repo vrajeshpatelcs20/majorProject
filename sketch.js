@@ -8,7 +8,7 @@
 
 let stateOfGame, cellWidth;
 let numbersToLetters = new Map();
-let player1 = true;
+let player1 = false;
 let gridForPlayer1;
 let gridForPlayer2;
 let gridSize = 11;
@@ -116,7 +116,6 @@ function displayGridForPlayer2() {
     fill(0);
   }
 }
-
 function displayGridForPlayer1() {
   cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
@@ -139,7 +138,6 @@ function displayGridForPlayer1() {
     fill(0);
   }
 }
-
 function battleshipGame() {
   background(0);
   rectMode(CORNER);
@@ -150,21 +148,37 @@ function battleshipGame() {
     displayGridForPlayer2();
   }
 }
-
 function mousePressed() {
   if (stateOfGame === "loadingScreen") {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
       stateOfGame = "instructionsOfBattleship";
     }
   }
-  // player1 = !player1;
-  let cellX = Math.floor(mouseX / cellWidth);
-  let cellY = Math.floor((mouseY- 100 )/ cellWidth);
-  if (gridForPlayer1[cellY][cellX] === 0) {
-    gridForPlayer1[cellY][cellX] = 1;
+  // mousepress location for player1 or leftside of the screen
+  if (player1) {
+    let cellX = Math.floor((mouseX - width / 50) / cellWidth);
+    let cellY = Math.floor((mouseY - 100) / cellWidth);
+    if (cellX !== 0 && cellY !== 0){
+      if (gridForPlayer1[cellY][cellX] === 0) {
+        gridForPlayer1[cellY][cellX] = 1;
+      }
+      else if (gridForPlayer1[cellY][cellX] === 1) {
+        gridForPlayer1[cellY][cellX] = 0;
+      }
+    }
   }
-  else if (gridForPlayer1[cellY][cellX] === 1) {
-    gridForPlayer1[cellY][cellX] = 0;
+  // mousepress location for player2 or rightside of the screen
+  if (!player1) {
+    let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
+    let cellY = Math.floor((mouseY - 100) / cellWidth);
+    if (cellX !== 0 && cellY !== 0) {
+      if (gridForPlayer2[cellY][cellX] === 0) {
+        gridForPlayer2[cellY][cellX] = 1;
+      }
+      else if (gridForPlayer2[cellY][cellX] === 1) {
+        gridForPlayer2[cellY][cellX] = 0;
+      }
+    }
   }
 }
 
@@ -173,6 +187,9 @@ function keyPressed() {
     if (stateOfGame === "instructionsOfBattleship") {
       stateOfGame = "battleshipGame";
     }
+  }
+  if (key === "a") {
+    player1 = !player1;
   }
 }
 
