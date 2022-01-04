@@ -20,7 +20,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   gridForPlayer1 = createGridOfPlayer(gridSize, gridSize);
   gridForPlayer2 = createGridOfPlayer(gridSize, gridSize);
-  stateOfGame = "battleshipGame";
+  // stateOfGame = "battleshipGame";
   setupOfMap();
 }
 
