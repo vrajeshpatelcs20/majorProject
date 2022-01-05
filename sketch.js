@@ -8,7 +8,7 @@
 
 let stateOfGame, cellWidth;
 let numbersToLetters = new Map();
-let player1 = false;
+let whiteGrid = true;
 let gridForPlayer1;
 let gridForPlayer2;
 let gridSize = 11;
@@ -37,7 +37,7 @@ function setupOfMap() {
   numbersToLetters.set(9, "I");
   numbersToLetters.set(10, "J");
 }
-function stateChecker() {
+function  stateChecker() {
   if (stateOfGame === "loadingScreen") {
     starterScreen();
   }
@@ -94,11 +94,14 @@ function displayGridForPlayer2() {
   cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
-      if (gridForPlayer2[y][x] === 0) {
+      if (gridForPlayer2[y][x] === 0 || gridForPlayer2[y][x] === 3) {
         fill("blue");
       }
       if (gridForPlayer2[y][x] === 1) {
-        fill("white");
+        fill("black");
+      }
+      if (gridForPlayer2[y][x] === 2) {
+        fill("red");
       }
 
       // else if (gridForPlayer2;[y][x] === 1) {
@@ -120,11 +123,14 @@ function displayGridForPlayer1() {
   cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
-      if (gridForPlayer1[y][x] === 0) {
+      if (gridForPlayer1[y][x] === 0 || gridForPlayer1[y][x] === 3) {
         fill("white");
       }
       else if (gridForPlayer1[y][x] === 1) {
         fill("black");
+      }
+      if (gridForPlayer1[y][x] === 2) {
+        fill("red");
       }
       // noStroke();
       rect(x * cellWidth + width / 50, y * cellWidth + 100, cellWidth, cellWidth);
@@ -141,44 +147,57 @@ function displayGridForPlayer1() {
 function battleshipGame() {
   background(0);
   rectMode(CORNER);
-  if (player1) {
+  if (whiteGrid) {
     displayGridForPlayer1();
   }
-  if (!player1) {
+  if (!whiteGrid) {
     displayGridForPlayer2();
   }
 }
+
+function whiteGridGotAttacked() {
+  let cellX = Math.floor((mouseX - width / 50) / cellWidth);
+  let cellY = Math.floor((mouseY - 100) / cellWidth);
+  if (cellX !== 0 && cellY !== 0) {
+    if (gridForPlayer1[cellY][cellX] === 0) {
+      gridForPlayer1[cellY][cellX] = 1;
+      whiteGrid = !whiteGrid;
+    }
+    else if (gridForPlayer1[cellY][cellX] === 3) {
+      gridForPlayer1[cellY][cellX] = 2;
+    }
+  }
+
+}
+
+function blueGridGotAttacked(){
+  let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
+  let cellY = Math.floor((mouseY - 100) / cellWidth);
+  if (cellX !== 0 && cellY !== 0) {
+    if (gridForPlayer2[cellY][cellX] === 0) {
+      gridForPlayer2[cellY][cellX] = 1;
+      whiteGrid = !whiteGrid;
+    }
+    else if (gridForPlayer2[cellY][cellX] === 3) {
+      gridForPlayer2[cellY][cellX] = 2;
+    }
+  }
+}
+
+
 function mousePressed() {
   if (stateOfGame === "loadingScreen") {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
       stateOfGame = "instructionsOfBattleship";
     }
   }
-  // mousepress location for player1 or leftside of the screen
-  if (player1) {
-    let cellX = Math.floor((mouseX - width / 50) / cellWidth);
-    let cellY = Math.floor((mouseY - 100) / cellWidth);
-    if (cellX !== 0 && cellY !== 0){
-      if (gridForPlayer1[cellY][cellX] === 0) {
-        gridForPlayer1[cellY][cellX] = 1;
-      }
-      else if (gridForPlayer1[cellY][cellX] === 1) {
-        gridForPlayer1[cellY][cellX] = 0;
-      }
-    }
+  // mousepress location for whiteGrid or leftside of the screen
+  if (whiteGrid) {
+    whiteGridGotAttacked();
   }
   // mousepress location for player2 or rightside of the screen
-  if (!player1) {
-    let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
-    let cellY = Math.floor((mouseY - 100) / cellWidth);
-    if (cellX !== 0 && cellY !== 0) {
-      if (gridForPlayer2[cellY][cellX] === 0) {
-        gridForPlayer2[cellY][cellX] = 1;
-      }
-      else if (gridForPlayer2[cellY][cellX] === 1) {
-        gridForPlayer2[cellY][cellX] = 0;
-      }
-    }
+  if (!whiteGrid) {
+    blueGridGotAttacked();
   }
 }
 
@@ -189,7 +208,7 @@ function keyPressed() {
     }
   }
   if (key === "a") {
-    player1 = !player1;
+    whiteGrid = !whiteGrid;
   }
 }
 
