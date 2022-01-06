@@ -6,7 +6,7 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let stateOfGame, cellWidth;
+let stateOfGame, cellWidth, timerForScreenChange;
 let numbersToLetters = new Map();
 let whiteGrid = true;
 let gridForPlayer1;
@@ -161,7 +161,7 @@ function whiteGridGotAttacked() {
   if (cellX !== 0 && cellY !== 0) {
     if (gridForPlayer1[cellY][cellX] === 0) {
       gridForPlayer1[cellY][cellX] = 1;
-      whiteGrid = !whiteGrid;
+      changeGrid();
     }
     else if (gridForPlayer1[cellY][cellX] === 3) {
       gridForPlayer1[cellY][cellX] = 2;
@@ -170,13 +170,19 @@ function whiteGridGotAttacked() {
 
 }
 
+function changeGrid(){
+  timerForScreenChange = millis();
+  while (millis() > timerForScreenChange + 500){
+    whiteGrid = !whiteGrid;
+  }
+}
 function blueGridGotAttacked(){
   let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
     if (gridForPlayer2[cellY][cellX] === 0) {
       gridForPlayer2[cellY][cellX] = 1;
-      whiteGrid = !whiteGrid;
+      changeGrid();
     }
     else if (gridForPlayer2[cellY][cellX] === 3) {
       gridForPlayer2[cellY][cellX] = 2;
