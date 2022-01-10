@@ -14,6 +14,10 @@ let gridForPlayer2;
 let gridSize = 11;
 let theColor = 0;
 let fillColor = 0;
+let boatsForWhite = false;
+let whiteBoatCount = 0;
+let boatsForBlue = false;
+let blueBoatCount = 0;
 
 function setup() {
   stateOfGame = "loadingScreen";
@@ -37,7 +41,7 @@ function setupOfMap() {
   numbersToLetters.set(9, "I");
   numbersToLetters.set(10, "J");
 }
-function  stateChecker() {
+function stateChecker() {
   if (stateOfGame === "loadingScreen") {
     starterScreen();
   }
@@ -155,34 +159,42 @@ function battleshipGame() {
   }
 }
 
+
+
 function whiteGridGotAttacked() {
   let cellX = Math.floor((mouseX - width / 50) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
-    if (gridForPlayer1[cellY][cellX] === 0) {
-      gridForPlayer1[cellY][cellX] = 1;
-      changeGrid();
+    if (boatsForWhite) {
+      if (gridForPlayer1[cellY][cellX] === 0) {
+        gridForPlayer1[cellY][cellX] = 1;
+        changeGrid();
+      }
+      else if (gridForPlayer1[cellY][cellX] === 3) {
+        gridForPlayer1[cellY][cellX] = 2;
+      }
     }
-    else if (gridForPlayer1[cellY][cellX] === 3) {
-      gridForPlayer1[cellY][cellX] = 2;
+    else if(gridForPlayer1[cellY][cellX] === 0){
+      gridForPlayer1[cellY][cellX] = 3;
+      whiteBoatCount++;
     }
   }
 
 }
 
-function changeGrid(){
+function changeGrid() {
   timerForScreenChange = millis();
-  while (millis() > timerForScreenChange + 500){
+  while (millis() > timerForScreenChange + 500) {
     whiteGrid = !whiteGrid;
   }
 }
-function blueGridGotAttacked(){
+function blueGridGotAttacked() {
   let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
     if (gridForPlayer2[cellY][cellX] === 0) {
       gridForPlayer2[cellY][cellX] = 1;
-      changeGrid(); 
+      changeGrid();
     }
     else if (gridForPlayer2[cellY][cellX] === 3) {
       gridForPlayer2[cellY][cellX] = 2;
@@ -192,6 +204,9 @@ function blueGridGotAttacked(){
 
 
 function mousePressed() {
+  if(whiteBoatCount === 5 && boatsForWhite === false){
+    boatsForWhite = true;
+  }
   if (stateOfGame === "loadingScreen") {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
       stateOfGame = "instructionsOfBattleship";
