@@ -182,7 +182,7 @@ function blueGridGotAttacked(){
   if (cellX !== 0 && cellY !== 0) {
     if (gridForPlayer2[cellY][cellX] === 0) {
       gridForPlayer2[cellY][cellX] = 1;
-      changeGrid();
+      changeGrid(); 
     }
     else if (gridForPlayer2[cellY][cellX] === 3) {
       gridForPlayer2[cellY][cellX] = 2;
