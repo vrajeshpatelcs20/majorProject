@@ -107,11 +107,6 @@ function displayGridForPlayer2() {
       if (gridForPlayer2[y][x] === 2) {
         fill("red");
       }
-
-      // else if (gridForPlayer2;[y][x] === 1) {
-      //   fill("black");
-      // }
-      // noStroke();
       rect(x * cellWidth + (width / 1.75), y * cellWidth + 100, cellWidth, cellWidth);
       rect(0 * cellWidth + (width / 1.75), 0 * cellWidth + 100, cellWidth, cellWidth);
     }
@@ -130,7 +125,7 @@ function displayGridForPlayer1() {
       if (gridForPlayer1[y][x] === 0 || gridForPlayer1[y][x] === 3) {
         fill("white");
       }
-      else if (gridForPlayer1[y][x] === 1) {
+      else if (gridForPlayer1[y][x] === 1 || gridForPlayer1[y][x] === 3) {
         fill("black");
       }
       if (gridForPlayer1[y][x] === 2) {
@@ -179,33 +174,45 @@ function whiteGridGotAttacked() {
       whiteBoatCount++;
     }
   }
-
 }
 
 function changeGrid() {
-  timerForScreenChange = millis();
-  while (millis() > timerForScreenChange + 500) {
-    whiteGrid = !whiteGrid;
-  }
+  // timerForScreenChange = millis();
+  // while (millis() > timerForScreenChange + 500) {
+  //   whiteGrid = !whiteGrid;
+  // }
+  whiteGrid = !whiteGrid;
 }
 function blueGridGotAttacked() {
   let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
-    if (gridForPlayer2[cellY][cellX] === 0) {
-      gridForPlayer2[cellY][cellX] = 1;
-      changeGrid();
+    if(boatsForBlue){
+      if (gridForPlayer2[cellY][cellX] === 0) {
+        gridForPlayer2[cellY][cellX] = 1;
+        changeGrid();
+      }
+      else if (gridForPlayer2[cellY][cellX] === 3) {
+        gridForPlayer2[cellY][cellX] = 2;
+      }
     }
-    else if (gridForPlayer2[cellY][cellX] === 3) {
-      gridForPlayer2[cellY][cellX] = 2;
+    else if(gridForPlayer2[cellY][cellX] === 0){
+      gridForPlayer2[cellY][cellX] === 3;
+      blueBoatCount++;
     }
   }
 }
 
 
 function mousePressed() {
-  if(whiteBoatCount === 5 && boatsForWhite === false){
+  if(whiteBoatCount === 2 && boatsForWhite === false){
+    changeGrid();
+    
     boatsForWhite = true;
+  }
+  if(blueBoatCount === 2 && boatsForBlue === false){
+    changeGrid();
+    boatsForBlue = true;
   }
   if (stateOfGame === "loadingScreen") {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
