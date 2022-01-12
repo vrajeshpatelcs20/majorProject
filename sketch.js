@@ -15,9 +15,11 @@ let gridSize = 11;
 let theColor = 0;
 let fillColor = 0;
 let boatsForWhite = false;
-let whiteBoatCount = 0;
+let whiteBoatCount = 2;
 let boatsForBlue = false;
-let blueBoatCount = 0;
+let blueBoatCount = 2;
+let blueShipsAlive = 2;
+let whiteShipsAlive = 2;
 
 function setup() {
   stateOfGame = "loadingScreen";
@@ -95,6 +97,7 @@ function createGridOfPlayer(rows, cols) {
 }
 
 function displayGridForPlayer2() {
+  stroke(255);
   cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
@@ -119,6 +122,7 @@ function displayGridForPlayer2() {
   }
 }
 function displayGridForPlayer1() {
+  stroke("blue");
   cellWidth = (width / 2.5) / gridSize;
   for (let y = 0; y < gridSize; y++) {
     for (let x = 0; x < gridSize; x++) {
@@ -167,11 +171,12 @@ function whiteGridGotAttacked() {
       }
       else if (gridForPlayer1[cellY][cellX] === 3) {
         gridForPlayer1[cellY][cellX] = 2;
+        whiteShipsAlive--;
       }
     }
-    else if(gridForPlayer1[cellY][cellX] === 0){
+    else if (gridForPlayer1[cellY][cellX] === 0) {
       gridForPlayer1[cellY][cellX] = 3;
-      whiteBoatCount++;
+      whiteBoatCount--;
     }
   }
 }
@@ -184,48 +189,53 @@ function changeGrid() {
   whiteGrid = !whiteGrid;
 }
 function blueGridGotAttacked() {
+
   let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
-    if(boatsForBlue){
+    if (boatsForBlue) {
       if (gridForPlayer2[cellY][cellX] === 0) {
         gridForPlayer2[cellY][cellX] = 1;
         changeGrid();
       }
       else if (gridForPlayer2[cellY][cellX] === 3) {
         gridForPlayer2[cellY][cellX] = 2;
+        blueShipsAlive--;
       }
     }
-    else if(gridForPlayer2[cellY][cellX] === 0){
-      gridForPlayer2[cellY][cellX] === 3;
-      blueBoatCount++;
+    else if (gridForPlayer2[cellY][cellX] === 0) {
+      gridForPlayer2[cellY][cellX] = 3;
+      blueBoatCount--;
     }
   }
 }
 
 
 function mousePressed() {
-  if(whiteBoatCount === 2 && boatsForWhite === false){
-    changeGrid();
-    
-    boatsForWhite = true;
-  }
-  if(blueBoatCount === 2 && boatsForBlue === false){
-    changeGrid();
-    boatsForBlue = true;
-  }
   if (stateOfGame === "loadingScreen") {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
       stateOfGame = "instructionsOfBattleship";
     }
   }
   // mousepress location for whiteGrid or leftside of the screen
-  if (whiteGrid) {
-    whiteGridGotAttacked();
-  }
-  // mousepress location for player2 or rightside of the screen
-  if (!whiteGrid) {
-    blueGridGotAttacked();
+  if(stateOfGame === "battleshipGame"){
+    if (whiteGrid) {
+      whiteGridGotAttacked();
+    }
+    // mousepress location for player2 or rightside of the screen
+    if (!whiteGrid) {
+      blueGridGotAttacked();
+    }
+  
+    if (whiteBoatCount === 0 && boatsForWhite === false) {
+      changeGrid();
+  
+      boatsForWhite = true;
+    }
+    if (blueBoatCount === 0 && boatsForBlue === false) {
+      changeGrid();
+      boatsForBlue = true;
+    }
   }
 }
 
@@ -240,6 +250,20 @@ function keyPressed() {
   }
 }
 
+function whiteWins(){
+  background("white");
+}
+
+function blueWins(){
+  background("blue");
+}
+
 function draw() {
   stateChecker();
+  if (whiteShipsAlive === 0) {
+    whiteWins();
+  }
+  if (blueShipsAlive === 0) {
+    blueWins();
+  }
 }
