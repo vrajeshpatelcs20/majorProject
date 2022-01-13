@@ -128,8 +128,8 @@ function displayGridForPlayer1() {
     for (let x = 0; x < gridSize; x++) {
       if (gridForPlayer1[y][x] === 0 || gridForPlayer1[y][x] === 3) {
         fill("white");
-      }
-      else if (gridForPlayer1[y][x] === 1 || gridForPlayer1[y][x] === 3) {
+      } 
+      else if (gridForPlayer1[y][x] === 1) {
         fill("black");
       }
       if (gridForPlayer1[y][x] === 2) {
@@ -152,10 +152,23 @@ function battleshipGame() {
   rectMode(CORNER);
   if (whiteGrid) {
     displayGridForPlayer1();
+    whiteGridHoverDetection();
   }
   if (!whiteGrid) {
     displayGridForPlayer2();
+    blueGridHoverDetection();
   }
+}
+
+function whiteGridHoverDetection(){
+  let cellX = Math.floor((mouseX - width / 50) / cellWidth);
+  let cellY = Math.floor((mouseY - 100) / cellWidth);
+
+  
+}
+
+function blueGridHoverDetection(){
+  
 }
 
 
