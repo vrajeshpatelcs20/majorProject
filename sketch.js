@@ -135,6 +135,9 @@ function displayGridForPlayer1() {
       if (gridForPlayer1[y][x] === 2) {
         fill("red");
       }
+      if(gridForPlayer1[y][x] === 4){
+        fill("green");
+      }
       // noStroke();
       rect(x * cellWidth + width / 50, y * cellWidth + 100, cellWidth, cellWidth);
       rect(0 * cellWidth + width / 50, 0 * cellWidth + 100, cellWidth, cellWidth);
@@ -163,12 +166,18 @@ function battleshipGame() {
 function whiteGridHoverDetection(){
   let cellX = Math.floor((mouseX - width / 50) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
+  let previousVariable = gridForPlayer1[cellY][cellX] = 1;
+  if (cellX !== 0 && cellY !== 0) {
+    gridForPlayer1[cellY][cellX] = 4;
+  }
 
   
 }
 
 function blueGridHoverDetection(){
-  
+  let cellX = Math.floor((mouseX - width / 50) / cellWidth);
+  let cellY = Math.floor((mouseY - 100) / cellWidth);
+
 }
 
 
