@@ -20,6 +20,7 @@ let boatsForBlue = false;
 let blueBoatCount = 2;
 let blueShipsAlive = 2;
 let whiteShipsAlive = 2;
+let previousVariable;
 
 function setup() {
   stateOfGame = "loadingScreen";
@@ -166,17 +167,19 @@ function battleshipGame() {
 function whiteGridHoverDetection(){
   let cellX = Math.floor((mouseX - width / 50) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
-  let previousVariable = gridForPlayer1[cellY][cellX] = 1;
+  previousVariable = gridForPlayer1[cellY][cellX];
   if (cellX !== 0 && cellY !== 0) {
     gridForPlayer1[cellY][cellX] = 4;
   }
+  
 
   
 }
 
 function blueGridHoverDetection(){
-  let cellX = Math.floor((mouseX - width / 50) / cellWidth);
+  let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
+  let previousVariableForBlue = gridForPlayer2[cellY][cellX];
 
 }
 
