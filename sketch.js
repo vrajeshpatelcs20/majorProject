@@ -6,21 +6,24 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+
 let stateOfGame, cellWidth, timerForScreenChange;
 let numbersToLetters = new Map();
-let whiteGrid = true;
+let whiteGrid = false;
 let gridForPlayer1;
 let gridForPlayer2;
 let gridSize = 11;
 let theColor = 0;
 let fillColor = 0;
 let boatsForWhite = false;
-let whiteBoatCount = 2;
+let whiteBoatCount = 5;
 let boatsForBlue = false;
-let blueBoatCount = 2;
-let blueShipsAlive = 2;
-let whiteShipsAlive = 2;
+let blueBoatCount = 5;
+let blueShipsAlive = 5;
+let whiteShipsAlive = 5;
 let previousVariable;
+let whiteInstructions = true;
+let blueInstructions = true;
 
 function setup() {
   stateOfGame = "loadingScreen";
@@ -83,7 +86,12 @@ function starterScreen() {
 function pregameBattleship() {
   stroke(0);
   background(255);
-  text("Press Space to Countine", width / 2, 100);
+  text("Press Space to Countine", width / 2, height - 50);
+  text("The Classic Game of Battleship", width / 2, 100);
+  text("Expect it's not, This game is much worse than that", width / 2, 150);
+  text("Anyways Lets Get to it", width / 2, 200);
+  text("Player 1 will be the White grid/Left grid", width / 2, 300);
+  text("Player 2 will be the Blue grid/Right grid",width / 2, 350);
 }
 
 function createGridOfPlayer(rows, cols) {
@@ -121,6 +129,13 @@ function displayGridForPlayer2() {
     text(numbersToLetters.get(y), y * cellWidth + (width / 1.8) + 50, cellWidth + 90);
     fill(0);
   }
+  if (blueInstructions) {
+    fill("blue");
+    text("Player 1 Place your Ships", windowWidth / 4, windowHeight / 2 - 100);
+    text("You have 5 Boats to places", windowWidth / 4, windowHeight / 2);
+    text("Each Boat is One Sqaure", windowWidth / 4, windowHeight / 2 + 100);
+    text("Press S When you are done", windowWidth / 4, windowHeight / 2 + 200);
+  }
 }
 function displayGridForPlayer1() {
   stroke("blue");
@@ -129,14 +144,14 @@ function displayGridForPlayer1() {
     for (let x = 0; x < gridSize; x++) {
       if (gridForPlayer1[y][x] === 0 || gridForPlayer1[y][x] === 3) {
         fill("white");
-      } 
+      }
       else if (gridForPlayer1[y][x] === 1) {
         fill("black");
       }
       if (gridForPlayer1[y][x] === 2) {
         fill("red");
       }
-      if(gridForPlayer1[y][x] === 4){
+      if (gridForPlayer1[y][x] === 4) {
         fill("green");
       }
       // noStroke();
@@ -150,33 +165,41 @@ function displayGridForPlayer1() {
     text(numbersToLetters.get(y), y * cellWidth + 59, cellWidth + 95);
     fill(0);
   }
+  if (whiteInstructions) {
+    fill("white");
+    text("Player 2 Place your Ships", windowWidth / 4 * 3, windowHeight / 2 - 100);
+    text("You have 5 Boats to places", windowWidth / 4 * 3, windowHeight / 2);
+    text("Each Boat is One Sqaure", windowWidth / 4 * 3, windowHeight / 2 + 100);
+    text("Press A When you are done", windowWidth / 4 * 3, windowHeight / 2 + 200);
+    fill("black");
+  }
 }
 function battleshipGame() {
   background(0);
   rectMode(CORNER);
   if (whiteGrid) {
     displayGridForPlayer1();
-    whiteGridHoverDetection();
+    // whiteGridHoverDetection();
   }
   if (!whiteGrid) {
     displayGridForPlayer2();
-    blueGridHoverDetection();
+    // blueGridHoverDetection();
   }
 }
 
-function whiteGridHoverDetection(){
+function whiteGridHoverDetection() {
   let cellX = Math.floor((mouseX - width / 50) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   previousVariable = gridForPlayer1[cellY][cellX];
   if (cellX !== 0 && cellY !== 0) {
     gridForPlayer1[cellY][cellX] = 4;
   }
-  
 
-  
+
+
 }
 
-function blueGridHoverDetection(){
+function blueGridHoverDetection() {
   let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   let previousVariableForBlue = gridForPlayer2[cellY][cellX];
@@ -189,7 +212,7 @@ function whiteGridGotAttacked() {
   let cellX = Math.floor((mouseX - width / 50) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
-    if (boatsForWhite) {
+    if (boatsForWhite && !whiteInstructions) {
       if (gridForPlayer1[cellY][cellX] === 0) {
         gridForPlayer1[cellY][cellX] = 1;
         changeGrid();
@@ -200,8 +223,10 @@ function whiteGridGotAttacked() {
       }
     }
     else if (gridForPlayer1[cellY][cellX] === 0) {
-      gridForPlayer1[cellY][cellX] = 3;
-      whiteBoatCount--;
+      if(whiteBoatCount !== 0){
+        gridForPlayer1[cellY][cellX] = 3;
+        whiteBoatCount--;
+      }
     }
   }
 }
@@ -218,7 +243,7 @@ function blueGridGotAttacked() {
   let cellX = Math.floor((mouseX - width / 1.75) / cellWidth);
   let cellY = Math.floor((mouseY - 100) / cellWidth);
   if (cellX !== 0 && cellY !== 0) {
-    if (boatsForBlue) {
+    if (boatsForBlue && !blueInstructions) {
       if (gridForPlayer2[cellY][cellX] === 0) {
         gridForPlayer2[cellY][cellX] = 1;
         changeGrid();
@@ -229,8 +254,10 @@ function blueGridGotAttacked() {
       }
     }
     else if (gridForPlayer2[cellY][cellX] === 0) {
-      gridForPlayer2[cellY][cellX] = 3;
-      blueBoatCount--;
+      if (blueBoatCount !==0){
+        gridForPlayer2[cellY][cellX] = 3;
+        blueBoatCount--;
+      }
     }
   }
 }
@@ -243,7 +270,7 @@ function mousePressed() {
     }
   }
   // mousepress location for whiteGrid or leftside of the screen
-  if(stateOfGame === "battleshipGame"){
+  if (stateOfGame === "battleshipGame") {
     if (whiteGrid) {
       whiteGridGotAttacked();
     }
@@ -251,14 +278,12 @@ function mousePressed() {
     if (!whiteGrid) {
       blueGridGotAttacked();
     }
-  
+
     if (whiteBoatCount === 0 && boatsForWhite === false) {
-      changeGrid();
-  
+
       boatsForWhite = true;
     }
     if (blueBoatCount === 0 && boatsForBlue === false) {
-      changeGrid();
       boatsForBlue = true;
     }
   }
@@ -271,15 +296,20 @@ function keyPressed() {
     }
   }
   if (key === "a") {
+    whiteInstructions = false;
+    whiteGrid = !whiteGrid;
+  }
+  if (key === "s") {
+    blueInstructions = false;
     whiteGrid = !whiteGrid;
   }
 }
 
-function whiteWins(){
+function whiteWins() {
   background("white");
 }
 
-function blueWins(){
+function blueWins() {
   background("blue");
 }
 
