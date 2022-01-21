@@ -91,7 +91,7 @@ function pregameBattleship() {
   text("Expect it's not, This game is much worse than that", width / 2, 150);
   text("Anyways Lets Get to it", width / 2, 200);
   text("Player 1 will be the White grid/Left grid", width / 2, 300);
-  text("Player 2 will be the Blue grid/Right grid",width / 2, 350);
+  text("Player 2 will be the Blue grid/Right grid", width / 2, 350);
 }
 
 function createGridOfPlayer(rows, cols) {
@@ -134,7 +134,7 @@ function displayGridForPlayer2() {
     text("Player 1 Place your Ships", windowWidth / 4, windowHeight / 2 - 100);
     text("You have 5 Boats to places", windowWidth / 4, windowHeight / 2);
     text("Each Boat is One Sqaure", windowWidth / 4, windowHeight / 2 + 100);
-    text("Press S When you are done", windowWidth / 4, windowHeight / 2 + 200);
+    text("Press A When you are done", windowWidth / 4, windowHeight / 2 + 200);
   }
 }
 function displayGridForPlayer1() {
@@ -167,10 +167,11 @@ function displayGridForPlayer1() {
   }
   if (whiteInstructions) {
     fill("white");
-    text("Player 2 Place your Ships", windowWidth / 4 * 3, windowHeight / 2 - 100);
-    text("You have 5 Boats to places", windowWidth / 4 * 3, windowHeight / 2);
-    text("Each Boat is One Sqaure", windowWidth / 4 * 3, windowHeight / 2 + 100);
-    text("Press A When you are done", windowWidth / 4 * 3, windowHeight / 2 + 200);
+    text("Player 2 Place your Ships", width / 4 * 3, height / 2 - 100);
+    text("You have 5 Boats to places", width / 4 * 3, height / 2);
+    text("Each Boat is One Sqaure", width / 4 * 3, height / 2 + 100);
+    text("Press A When you are done", width / 4 * 3, height / 2 + 200);
+    text("Player 1 will start", width / 4 * 3, height / 2 + 300);
     fill("black");
   }
 }
@@ -223,7 +224,7 @@ function whiteGridGotAttacked() {
       }
     }
     else if (gridForPlayer1[cellY][cellX] === 0) {
-      if(whiteBoatCount !== 0){
+      if (whiteBoatCount !== 0) {
         gridForPlayer1[cellY][cellX] = 3;
         whiteBoatCount--;
       }
@@ -254,7 +255,7 @@ function blueGridGotAttacked() {
       }
     }
     else if (gridForPlayer2[cellY][cellX] === 0) {
-      if (blueBoatCount !==0){
+      if (blueBoatCount !== 0) {
         gridForPlayer2[cellY][cellX] = 3;
         blueBoatCount--;
       }
@@ -296,21 +297,25 @@ function keyPressed() {
     }
   }
   if (key === "a") {
-    whiteInstructions = false;
-    whiteGrid = !whiteGrid;
-  }
-  if (key === "s") {
-    blueInstructions = false;
-    whiteGrid = !whiteGrid;
+    if (whiteBoatCount === 0) {
+      whiteInstructions = false;
+      whiteGrid = !whiteGrid;
+    }
+    if (blueBoatCount === 0) {
+      blueInstructions = false;
+      whiteGrid = !whiteGrid;
+    }
   }
 }
 
 function whiteWins() {
   background("white");
+  text("White Wins!", width / 2, height / 2);
 }
 
 function blueWins() {
   background("blue");
+  text("Blue Wins!", width / 2, height / 2);
 }
 
 function draw() {
