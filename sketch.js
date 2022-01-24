@@ -389,9 +389,9 @@ function keyPressed() {
     else if (key === "d") {
       tryToMoveToPlayer1(hoverXForPlayer1 + 1, hoverYForPlayer1);
     }
-    
-    
-    
+
+
+
     if (!whiteGrid) {
       if (key === "s") {
         tryToMoveToPlayer2(hoverXForPlayer2, hoverYForPlayer2 + 1);
@@ -420,42 +420,43 @@ function keyPressed() {
         }
       }
     }
-    
-
-
-        // SnakeGame Keys
-        if (stateOfGame === "snakeGame") {
-          switch (keyCode) {
-            case 65:
-              if (direction !== "right") {
-                direction = "left";
-              }
-              break;
-            case 68:
-              if (direction !== "left") {
-                direction = "right";
-              }
-              break;
-            case 87:
-              if (direction !== "down") {
-                direction = "up";
-              }
-              break;
-            case 83:
-              if (direction !== "up") {
-                direction = "down";
-              }
-              break;
-            case 81:
-              backR = random(255);
-              backB = random(255);
-              backG = random(255);
-          }
-        }
-      }
   }
-  function tryToMoveToPlayer1(newX, newY) {
-    if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize) {
+  // SnakeGame Keys
+  if (stateOfGame === "snakeGame") {
+    switch (keyCode) {
+      case 65:
+        if (direction !== "right") {
+          direction = "left";
+        }
+        break;
+      case 68:
+        if (direction !== "left") {
+          direction = "right";
+        }
+        break;
+      case 87:
+        if (direction !== "down") {
+          direction = "up";
+        }
+        break;
+      case 83:
+        if (direction !== "up") {
+          direction = "down";
+        }
+        break;
+      case 81:
+        backR = random(255);
+        backB = random(255);
+        backG = random(255);
+    }
+  }
+}
+
+
+
+
+function tryToMoveToPlayer1(newX, newY) {
+  if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize) {
     // reset current hover spot to 0/empty  
     gridForPlayer1[hoverYForPlayer1][hoverXForPlayer1] = previousBlockForPlayer1;
     previousBlockForPlayer1 = gridForPlayer1[newY][newX];
@@ -464,8 +465,6 @@ function keyPressed() {
     gridForPlayer1[hoverYForPlayer1][hoverXForPlayer1] = 9;
   }
 }
-
-
 function tryToMoveToPlayer2(newX, newY) {
   if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize) {
     // reset current hover spot to 0/empty  
@@ -571,10 +570,7 @@ function updateappleCoordinates() {
   appleXCordinate = floor(random(10, (width - 100) / 10)) * 10;
   appleYCordinate = floor(random(10, (height - 100) / 10)) * 10;
 }
-// keyboard functions
-function keyPressed() {
 
-}
 // color changer
 function changeColorOfObjectSpecified() {
   if (mouseIsPressed) {
