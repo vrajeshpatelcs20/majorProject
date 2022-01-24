@@ -100,7 +100,7 @@ function gameChecker() {
   if (stateOfGame === "battleshipStart") {
     battleshipStateChecker();
   }
-  if (stateOfGame === "snakeGameStart"){
+  if (stateOfGame === "snakeGameStart") {
     background(backR, backG, backB);
     for (let i = 0; i < numSegments - 1; i++) {
       line(snakeXCordinate[i], snakeYCordinate[i], snakeXCordinate[i + 1], snakeYCordinate[i + 1]);
@@ -109,7 +109,7 @@ function gameChecker() {
     checkGameStatus();
     checkForapple();
   }
-  if(stateOfGame === "gridGameStart");{
+  if (stateOfGame === "gridGameStart") {
     gridGameStateChecker();
   }
 }
@@ -137,7 +137,7 @@ function mousePressed() {
     }
   }
 
-  if (stateOfGame === "snakeGameStart"){
+  if (stateOfGame === "snakeGameStart") {
     frameRate(15);
     stroke(r, g, b);
     strokeWeight(10);
@@ -464,33 +464,33 @@ function keyPressed() {
       }
     }
   }
-  if(stateOfGame === "snakeGameStart"){
+  if (stateOfGame === "snakeGameStart") {
     switch (keyCode) {
-      case 65:
-        if (direction !== "right") {
-          direction = "left";
-        }
-        break;
-      case 68:
-        if (direction !== "left") {
-          direction = "right";
-        }
-        break;
-      case 87:
-        if (direction !== "down") {
-          direction = "up";
-        }
-        break;
-      case 83:
-        if (direction !== "up") {
-          direction = "down";
-        }
-        break;
-      case 81:
-        backR = random(255);
-        backB = random(255);
-        backG = random(255);
-        break;
+    case 65:
+      if (direction !== "right") {
+        direction = "left";
+      }
+      break;
+    case 68:
+      if (direction !== "left") {
+        direction = "right";
+      }
+      break;
+    case 87:
+      if (direction !== "down") {
+        direction = "up";
+      }
+      break;
+    case 83:
+      if (direction !== "up") {
+        direction = "down";
+      }
+      break;
+    case 81:
+      backR = random(255);
+      backB = random(255);
+      backG = random(255);
+      break;
     }
   }
 }
@@ -610,8 +610,8 @@ function updateappleCoordinates() {
 
 // Grid Game
 
-function gridGameStateChecker(){
-  
+function gridGameStateChecker() {
+
 }
 
 
