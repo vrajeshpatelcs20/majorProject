@@ -570,6 +570,7 @@ function updateappleCoordinates() {
   appleXCordinate = floor(random(10, (width - 100) / 10)) * 10;
   appleYCordinate = floor(random(10, (height - 100) / 10)) * 10;
 }
+// keyboard functions
 
 // color changer
 function changeColorOfObjectSpecified() {
