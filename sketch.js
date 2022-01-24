@@ -32,6 +32,25 @@ let previousBlockForPlayer2 = 1;
 let stateOfGame = "loadingScreen";
 let battleshipState = "instructionsOfBattleship";
 
+// SnakeGameStuff
+
+let numSegments = 10;
+let direction = "right";
+// stater cordinates and spacer
+let xStart = 0;
+let yStart = 250;
+let spaceBetweenCircles = 10;
+let snakeXCordinate = [];
+let snakeYCordinate = [];
+let appleXCordinate = 0;
+let appleYCordinate = 0;
+let scoreElem;
+let r = 255;
+let g = 255;
+let b = 255;
+let backR = 0;
+let backB = 0;
+let backG = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -41,6 +60,23 @@ function setup() {
   setupOfMap();
   gridForPlayer1[hoverYForPlayer1][hoverXForPlayer1] = 9;
   gridForPlayer2[hoverYForPlayer2][hoverXForPlayer2] = 9;
+
+
+
+  scoreElem = createDiv("Score = 0");
+  scoreElem.position(20, 20);
+  scoreElem.style("color", "white");
+  createCanvas(windowWidth, windowHeight);
+  frameRate(15);
+  stroke(r, g, b);
+  strokeWeight(10);
+  updateappleCoordinates();
+  for (let i = 0; i < numSegments; i++) {
+    snakeXCordinate.push(xStart + i * spaceBetweenCircles);
+    snakeYCordinate.push(yStart);
+  }
+
+
 }
 
 
@@ -57,12 +93,24 @@ function setupOfMap() {
   numbersToLetters.set(10, "J");
 }
 
-function gameChecker(){
+function gameChecker() {
   if (stateOfGame === "loadingScreen") {
     starterScreen();
   }
-  if (stateOfGame === "battleshipStart"){
+  if (stateOfGame === "battleshipStart") {
     battleshipStateChecker();
+  }
+  if (stateOfGame === "snakeGameStart"){
+    background(backR, backG, backB);
+    for (let i = 0; i < numSegments - 1; i++) {
+      line(snakeXCordinate[i], snakeYCordinate[i], snakeXCordinate[i + 1], snakeYCordinate[i + 1]);
+    }
+    updateSnakeCoordinates();
+    checkGameStatus();
+    checkForapple();
+  }
+  if(stateOfGame === "gridGameStart");{
+    gridGameStateChecker();
   }
 }
 
@@ -81,18 +129,27 @@ function mousePressed() {
     if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
       stateOfGame = "battleshipStart";
     }
-    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100){
-      stateOfGame ="g";
-      background("yellow");
+    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100) {
+      stateOfGame = "snakeGameStart";
     }
-    if(mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100){
-      stateOfGame ="a";
-      background("red");
+    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100) {
+      stateOfGame = "gridGameStart";
     }
   }
+
+  if (stateOfGame === "snakeGameStart"){
+    frameRate(15);
+    stroke(r, g, b);
+    strokeWeight(10);
+    r = random(255);
+    g = random(255);
+    b = random(255);
+    stroke(r, g, b);
+  }
+
 }
 
-function winCheckerForBattleship(){
+function winCheckerForBattleship() {
   if (whiteShipsAlive === 0) {
     whiteWins();
   }
@@ -102,6 +159,8 @@ function winCheckerForBattleship(){
 }
 
 function starterScreen() {
+  strokeWeight(1);
+  frameRate(60);
   background(0);
   rectMode(CENTER);
   stroke(theColor);
@@ -112,7 +171,7 @@ function starterScreen() {
   fill(fillColor);
   text("Battleship", width / 4 * 3, height / 2 + 10);
   text("Snake", width / 4 * 2, height / 2 + 10);
-  text("Undecided", width / 4, height / 2 + 10);
+  text("Grids", width / 4, height / 2 + 10);
   textSize(width / 45);
   textAlign(CENTER);
   if ((mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100) || (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100)) {
@@ -134,7 +193,7 @@ function pregameBattleship() {
   text("Anyways Lets Get to it", width / 2, 200);
   text("Player 1 will be the White grid/Left grid", width / 2, 300);
   text("Player 2 will be the Blue grid/Right grid", width / 2, 350);
-  text("Both Players Must Use WASD To move your target location", width/2 ,450);
+  text("Both Players Must Use WASD To move your target location", width / 2, 450);
 }
 
 function createGridOfPlayer(rows, cols) {
@@ -261,7 +320,7 @@ function whiteGridGotAttacked() {
         gridForPlayer1[cellY][cellX] = 2;
         whiteShipsAlive--;
       }
-      else{
+      else {
         hoverYForPlayer1 = 0;
         hoverXForPlayer1 = 0;
       }
@@ -271,7 +330,7 @@ function whiteGridGotAttacked() {
         gridForPlayer1[cellY][cellX] = 3;
         whiteBoatCount--;
       }
-      else{
+      else {
         hoverYForPlayer1 = 0;
         hoverXForPlayer1 = 0;
       }
@@ -292,9 +351,9 @@ function blueGridGotAttacked() {
     text("All Boats Have Been Placed", width / 4, - 200);
   }
   if (hoverXForPlayer2 !== 0 && hoverYForPlayer2 !== 0) {
-  let cellX = hoverXForPlayer2;
-  let cellY = hoverYForPlayer2;
-  recenterHover(2);
+    let cellX = hoverXForPlayer2;
+    let cellY = hoverYForPlayer2;
+    recenterHover(2);
     if (boatsForBlue && !blueInstructions) {
       if (previousBlockForPlayer2 === 0) {
         gridForPlayer2[cellY][cellX] = 1;
@@ -341,69 +400,105 @@ function recenterHover(gridNum) {
 
 
 function keyPressed() {
-  if (key === "r"){
+  if (key === "r") {
     stateOfGame = "loadingScreen";
   }
-  if (key === " ") {
-    if (battleshipState === "instructionsOfBattleship") {
-      battleshipState = "battleshipGame";
-    }
-  }
-  if (key === "z") {
-    if (whiteBoatCount === 0) {
-      whiteInstructions = false;
-      whiteGrid = !whiteGrid;
-    }
-    if (blueBoatCount === 0) {
-      blueInstructions = false;
-      whiteGrid = !whiteGrid;
-    }
-  }
-  if (whiteGrid) {
-    if (key === "s") {
-      tryToMoveToPlayer1(hoverXForPlayer1, hoverYForPlayer1 + 1);
-    }
-    else if (key === "w") {
-      tryToMoveToPlayer1(hoverXForPlayer1, hoverYForPlayer1 - 1);
-    }
-    else if (key === "a") {
-      tryToMoveToPlayer1(hoverXForPlayer1 - 1, hoverYForPlayer1);
-    }
-    else if (key === "d") {
-      tryToMoveToPlayer1(hoverXForPlayer1 + 1, hoverYForPlayer1);
-    }
-  }
-
-
-  if (!whiteGrid) {
-    if (key === "s") {
-      tryToMoveToPlayer2(hoverXForPlayer2, hoverYForPlayer2 + 1);
-    }
-    else if (key === "w") {
-      tryToMoveToPlayer2(hoverXForPlayer2, hoverYForPlayer2 - 1);
-    }
-    else if (key === "a") {
-      tryToMoveToPlayer2(hoverXForPlayer2 - 1, hoverYForPlayer2);
-    }
-    else if (key === "d") {
-      tryToMoveToPlayer2(hoverXForPlayer2 + 1, hoverYForPlayer2);
-    }
-  }
-  if (battleshipState === "battleshipGame") {
+  if (stateOfGame === "battleshipStart") {
     if (key === " ") {
-      if (whiteGrid) {
-        if (previousBlockForPlayer1 === 0 || previousBlockForPlayer1 === 3){
-          whiteGridGotAttacked();
+      if (battleshipState === "instructionsOfBattleship") {
+        battleshipState = "battleshipGame";
+      }
+    }
+    if (key === "z") {
+      if (whiteBoatCount === 0) {
+        whiteInstructions = false;
+        whiteGrid = !whiteGrid;
+      }
+      if (blueBoatCount === 0) {
+        blueInstructions = false;
+        whiteGrid = !whiteGrid;
+      }
+    }
+    if (whiteGrid) {
+      if (key === "s") {
+        tryToMoveToPlayer1(hoverXForPlayer1, hoverYForPlayer1 + 1);
+      }
+      else if (key === "w") {
+        tryToMoveToPlayer1(hoverXForPlayer1, hoverYForPlayer1 - 1);
+      }
+      else if (key === "a") {
+        tryToMoveToPlayer1(hoverXForPlayer1 - 1, hoverYForPlayer1);
+      }
+      else if (key === "d") {
+        tryToMoveToPlayer1(hoverXForPlayer1 + 1, hoverYForPlayer1);
+      }
+    }
+
+
+    if (!whiteGrid) {
+      if (key === "s") {
+        tryToMoveToPlayer2(hoverXForPlayer2, hoverYForPlayer2 + 1);
+      }
+      else if (key === "w") {
+        tryToMoveToPlayer2(hoverXForPlayer2, hoverYForPlayer2 - 1);
+      }
+      else if (key === "a") {
+        tryToMoveToPlayer2(hoverXForPlayer2 - 1, hoverYForPlayer2);
+      }
+      else if (key === "d") {
+        tryToMoveToPlayer2(hoverXForPlayer2 + 1, hoverYForPlayer2);
+      }
+    }
+    if (battleshipState === "battleshipGame") {
+      if (key === " ") {
+        if (whiteGrid) {
+          if (previousBlockForPlayer1 === 0 || previousBlockForPlayer1 === 3) {
+            whiteGridGotAttacked();
+          }
+        }
+        if (!whiteGrid) {
+          if (previousBlockForPlayer2 === 0 || previousBlockForPlayer2 === 3) {
+            blueGridGotAttacked();
+          }
         }
       }
-      if (!whiteGrid) {
-        if(previousBlockForPlayer2 === 0 || previousBlockForPlayer2 === 3){
-          blueGridGotAttacked();
+    }
+  }
+  if(stateOfGame === "snakeGameStart"){
+    switch (keyCode) {
+      case 65:
+        if (direction !== "right") {
+          direction = "left";
         }
-      }
+        break;
+      case 68:
+        if (direction !== "left") {
+          direction = "right";
+        }
+        break;
+      case 87:
+        if (direction !== "down") {
+          direction = "up";
+        }
+        break;
+      case 83:
+        if (direction !== "up") {
+          direction = "down";
+        }
+        break;
+      case 81:
+        backR = random(255);
+        backB = random(255);
+        backG = random(255);
+        break;
     }
   }
 }
+
+
+
+
+
 function tryToMoveToPlayer1(newX, newY) {
   if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize) {
     // reset current hover spot to 0/empty  
@@ -435,6 +530,99 @@ function blueWins() {
   background("blue");
   text("Blue Wins!", width / 2, height / 2);
 }
+
+
+
+
+
+// SnakeGame
+
+
+// update/change the direction of the snake
+function updateSnakeCoordinates() {
+  for (let i = 0; i < numSegments - 1; i++) {
+    snakeXCordinate[i] = snakeXCordinate[i + 1];
+    snakeYCordinate[i] = snakeYCordinate[i + 1];
+  }
+  if (direction === "right") {
+    snakeXCordinate[numSegments - 1] = snakeXCordinate[numSegments - 2] + spaceBetweenCircles;
+    snakeYCordinate[numSegments - 1] = snakeYCordinate[numSegments - 2];
+  }
+
+  if (direction === "up") {
+    snakeXCordinate[numSegments - 1] = snakeXCordinate[numSegments - 2];
+    snakeYCordinate[numSegments - 1] = snakeYCordinate[numSegments - 2] - spaceBetweenCircles;
+  }
+  if (direction === "left") {
+    snakeXCordinate[numSegments - 1] = snakeXCordinate[numSegments - 2] - spaceBetweenCircles;
+    snakeYCordinate[numSegments - 1] = snakeYCordinate[numSegments - 2];
+
+  }
+  if (direction === "down") {
+
+    snakeXCordinate[numSegments - 1] = snakeXCordinate[numSegments - 2];
+    snakeYCordinate[numSegments - 1] = snakeYCordinate[numSegments - 2] + spaceBetweenCircles;
+
+  }
+}
+// check to see if snake is out of bounds or not
+function checkGameStatus() {
+  if (
+    snakeXCordinate[snakeXCordinate.length - 1] > width ||
+    snakeXCordinate[snakeXCordinate.length - 1] < 0 ||
+    snakeYCordinate[snakeYCordinate.length - 1] > height ||
+    snakeYCordinate[snakeYCordinate.length - 1] < 0 ||
+    checkSnakeCollision()
+  ) {
+    noLoop();
+    let ScoreCounter = parseInt(scoreElem.html().substring(8));
+    scoreElem.html("Game ended! Your score was : " + ScoreCounter);
+  }
+}
+// checker to see if the snake hits the snake
+function checkSnakeCollision() {
+  let snakeHeadX = snakeXCordinate[snakeXCordinate.length - 1];
+  let snakeHeadY = snakeYCordinate[snakeYCordinate.length - 1];
+  for (let i = 0; i < snakeXCordinate.length - 1; i++) {
+    if (snakeXCordinate[i] === snakeHeadX && snakeYCordinate[i] === snakeHeadY) {
+      return true;
+    }
+  }
+}
+// checker to see if the apple is consumed or not
+function checkForapple() {
+  point(appleXCordinate, appleYCordinate);
+  if (snakeXCordinate[snakeXCordinate.length - 1] === appleXCordinate && snakeYCordinate[snakeYCordinate.length - 1] === appleYCordinate) {
+    let prevScore = parseInt(scoreElem.html().substring(8));
+    scoreElem.html("Score = " + (prevScore + 1));
+    snakeXCordinate.unshift(snakeXCordinate[0]);
+    snakeYCordinate.unshift(snakeYCordinate[0]);
+    numSegments++;
+    updateappleCoordinates();
+  }
+}
+// place a new apple
+function updateappleCoordinates() {
+  appleXCordinate = floor(random(10, (width - 100) / 10)) * 10;
+  appleYCordinate = floor(random(10, (height - 100) / 10)) * 10;
+}
+
+
+// Grid Game
+
+function gridGameStateChecker(){
+  
+}
+
+
+
+
+
+
+
+
+
+
 
 function draw() {
   gameChecker();
