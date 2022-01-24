@@ -7,7 +7,7 @@
 // - describe what you did to take this project "above and beyond"
 
 
-let stateOfGame, cellWidth, timerForScreenChange;
+let cellWidth, timerForScreenChange;
 let hoverXForPlayer1 = 0;
 let hoverYForPlayer1 = 0;
 let hoverXForPlayer2 = 0;
@@ -29,9 +29,11 @@ let whiteInstructions = true;
 let blueInstructions = true;
 let previousBlockForPlayer1 = 1;
 let previousBlockForPlayer2 = 1;
+let stateOfGame = "loadingScreen";
+let battleshipState = "instructionsOfBattleship";
+
 
 function setup() {
-  stateOfGame = "loadingScreen";
   createCanvas(windowWidth, windowHeight);
   gridForPlayer1 = createGridOfPlayer(gridSize, gridSize);
   gridForPlayer2 = createGridOfPlayer(gridSize, gridSize);
@@ -54,15 +56,48 @@ function setupOfMap() {
   numbersToLetters.set(9, "I");
   numbersToLetters.set(10, "J");
 }
-function stateChecker() {
+
+function gameChecker(){
   if (stateOfGame === "loadingScreen") {
     starterScreen();
   }
-  if (stateOfGame === "instructionsOfBattleship") {
+  if (stateOfGame === "battleshipStart"){
+    battleshipStateChecker();
+  }
+}
+
+
+function battleshipStateChecker() {
+  if (battleshipState === "instructionsOfBattleship") {
     pregameBattleship();
   }
-  if (stateOfGame === "battleshipGame") {
+  if (battleshipState === "battleshipGame") {
     battleshipGame();
+  }
+}
+
+function mousePressed() {
+  if (stateOfGame === "loadingScreen") {
+    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
+      stateOfGame = "battleshipStart";
+    }
+    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 2 + 100 && mouseX > width / 4 * 2 - 100){
+      stateOfGame ="g";
+      background("yellow");
+    }
+    if(mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 + 100 && mouseX > width / 4 - 100){
+      stateOfGame ="a";
+      background("red");
+    }
+  }
+}
+
+function winCheckerForBattleship(){
+  if (whiteShipsAlive === 0) {
+    whiteWins();
+  }
+  if (blueShipsAlive === 0) {
+    blueWins();
   }
 }
 
@@ -304,19 +339,14 @@ function recenterHover(gridNum) {
 
 }
 
-function mousePressed() {
-  if (stateOfGame === "loadingScreen") {
-    if (mouseY < height / 2 + 50 && mouseY > height / 2 - 50 && mouseX < width / 4 * 3 + 100 && mouseX > width / 4 * 3 - 100) {
-      stateOfGame = "instructionsOfBattleship";
-    }
-  }
-}
 
 function keyPressed() {
-
+  if (key === "r"){
+    stateOfGame = "loadingScreen";
+  }
   if (key === " ") {
-    if (stateOfGame === "instructionsOfBattleship") {
-      stateOfGame = "battleshipGame";
+    if (battleshipState === "instructionsOfBattleship") {
+      battleshipState = "battleshipGame";
     }
   }
   if (key === "z") {
@@ -359,7 +389,7 @@ function keyPressed() {
       tryToMoveToPlayer2(hoverXForPlayer2 + 1, hoverYForPlayer2);
     }
   }
-  if (stateOfGame === "battleshipGame") {
+  if (battleshipState === "battleshipGame") {
     if (key === " ") {
       if (whiteGrid) {
         if (previousBlockForPlayer1 === 0 || previousBlockForPlayer1 === 3){
@@ -407,11 +437,10 @@ function blueWins() {
 }
 
 function draw() {
-  stateChecker();
-  if (whiteShipsAlive === 0) {
-    whiteWins();
-  }
-  if (blueShipsAlive === 0) {
-    blueWins();
-  }
+  gameChecker();
+  winCheckerForBattleship();
 }
+
+
+
+
