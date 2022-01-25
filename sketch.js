@@ -20,11 +20,11 @@ let gridSizeForBattleShip = 11;
 let theColor = 0;
 let fillColor = 0;
 let boatsForWhite = false;
-let whiteBoatCount = 5;
+let whiteBoatCount = 8;
 let boatsForBlue = false;
-let blueBoatCount = 5;
-let blueShipsAlive = 5;
-let whiteShipsAlive = 5;
+let blueBoatCount = 8;
+let blueShipsAlive = 8;
+let whiteShipsAlive = 8;
 let whiteInstructions = true;
 let blueInstructions = true;
 let previousBlockForPlayer1 = 1;
@@ -504,8 +504,8 @@ function displayGridForPlayer2() {
   if (blueInstructions) {
     fill("blue");
     text("Player 1 Place your Ships", windowWidth / 4, windowHeight / 2 - 100);
-    text("You have 5 Boats to places", windowWidth / 4, windowHeight / 2);
-    text("Each Boat is One Sqaure", windowWidth / 4, windowHeight / 2 + 100);
+    text("You have Two 1 Square Boats ", windowWidth / 4, windowHeight / 2);
+    text("And You have Two 3 Square Boats ", windowWidth / 4, windowHeight / 2 - 50);
     text("Press Z When you are done", windowWidth / 4, windowHeight / 2 + 200);
   }
 }
@@ -550,8 +550,7 @@ function displayGridForPlayer1() {
     fill("white");
     text("Player 2 Place your Ships", width / 4 * 3, height / 2 - 100);
     text("You have 5 Boats to places", width / 4 * 3, height / 2);
-    text("Each Boat is One Sqaure", width / 4 * 3, height / 2 + 100);
-    text("Press Z When you are done", width / 4 * 3, height / 2 + 200);
+    text("Press Z When you are done", width / 4 * 3, height / 2 + 50);
     text("Player 1 will start", width / 4 * 3, height / 2 + 300);
     fill("black");
   }
@@ -610,7 +609,6 @@ function changeGrid() {
 
 // checks if a boat needs to be placed and if the attack missed or landed for blue grid
 function blueGridGotAttacked() {
-  // threeBoats = false;
   if (blueBoatCount === 0) {
     text("All Boats Have Been Placed", width / 4, - 200);
   }
@@ -644,7 +642,7 @@ function blueGridGotAttacked() {
               gridForPlayer2[cellY - 1][cellX] = 3;
               gridForPlayer2[cellY][cellX] = 3;
               gridForPlayer2[cellY + 1][cellX] = 3;
-              blueBoatCount - 3;
+              blueBoatCount = blueBoatCount - 3;
             }
           }
         }
