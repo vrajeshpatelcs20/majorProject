@@ -857,6 +857,8 @@ function levelSelector(width, height, widthOfBox, heightOfBox) {
 
   rectMode(CENTER);
 }
+
+
 // The Winner Screen
 function winner() {
   background(255);
@@ -926,6 +928,7 @@ function displayGridWorld() {
     winner();
   }
 }
+
 // display the grid boxes
 function displayGridBoxes() {
   counter = 0;
@@ -950,6 +953,7 @@ function displayGridBoxes() {
     winner();
   }
 }
+
 // swaps black to white and vice versa
 function swap(x, y) {
   if (x >= 0 && x < gridSizeForGridBasedGame && y >= 0 && y < gridSizeForGridBasedGame) {
@@ -961,6 +965,7 @@ function swap(x, y) {
     }
   }
 }
+
 // calls the game checker
 function draw() {
   gameChecker();
