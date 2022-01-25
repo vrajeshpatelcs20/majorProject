@@ -505,7 +505,7 @@ function displayGridForPlayer2() {
     fill("blue");
     text("Player 1 Place your Ships", windowWidth / 4, windowHeight / 2 - 100);
     text("You have Two 1 Square Boats ", windowWidth / 4, windowHeight / 2);
-    text("And You have Two 3 Square Boats ", windowWidth / 4, windowHeight / 2 - 50);
+    text("And Two 3 Square Boats ", windowWidth / 4, windowHeight / 2 + 50);
     text("Press Z When you are done", windowWidth / 4, windowHeight / 2 + 200);
   }
 }
