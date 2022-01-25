@@ -20,17 +20,18 @@ let gridSizeForBattleShip = 11;
 let theColor = 0;
 let fillColor = 0;
 let boatsForWhite = false;
-let whiteBoatCount = 5;
+let whiteBoatCount = 8;
 let boatsForBlue = false;
-let blueBoatCount = 5;
-let blueShipsAlive = 5;
-let whiteShipsAlive = 5;
+let blueBoatCount = 8;
+let blueShipsAlive = 8;
+let whiteShipsAlive = 8;
 let whiteInstructions = true;
 let blueInstructions = true;
 let previousBlockForPlayer1 = 1;
 let previousBlockForPlayer2 = 1;
 let stateOfGame = "loadingScreen";
 let battleshipState = "instructionsOfBattleship";
+let threeBoats = false;
 
 // SnakeGameStuff
 let numSegments = 10;
@@ -347,6 +348,11 @@ function keyPressed() {
         }
       }
     }
+    if (!boatsForBlue && blueInstructions) {
+      if (key === "3") {
+        threeBoats = !threeBoats;
+      }
+    }
   }
 
   // snake game key presses
@@ -498,8 +504,8 @@ function displayGridForPlayer2() {
   if (blueInstructions) {
     fill("blue");
     text("Player 1 Place your Ships", windowWidth / 4, windowHeight / 2 - 100);
-    text("You have 5 Boats to places", windowWidth / 4, windowHeight / 2);
-    text("Each Boat is One Sqaure", windowWidth / 4, windowHeight / 2 + 100);
+    text("You have Two 1 Square Boats ", windowWidth / 4, windowHeight / 2);
+    text("And Two 3 Square Boats ", windowWidth / 4, windowHeight / 2 + 50);
     text("Press Z When you are done", windowWidth / 4, windowHeight / 2 + 200);
   }
 }
@@ -544,8 +550,7 @@ function displayGridForPlayer1() {
     fill("white");
     text("Player 2 Place your Ships", width / 4 * 3, height / 2 - 100);
     text("You have 5 Boats to places", width / 4 * 3, height / 2);
-    text("Each Boat is One Sqaure", width / 4 * 3, height / 2 + 100);
-    text("Press Z When you are done", width / 4 * 3, height / 2 + 200);
+    text("Press Z When you are done", width / 4 * 3, height / 2 + 50);
     text("Player 1 will start", width / 4 * 3, height / 2 + 300);
     fill("black");
   }
@@ -614,7 +619,6 @@ function blueGridGotAttacked() {
     if (boatsForBlue && !blueInstructions) {
       if (previousBlockForPlayer2 === 0) {
         gridForPlayer2[cellY][cellX] = 1;
-        // recenterHover(2);
         changeGrid();
       }
       else if (previousBlockForPlayer2 === 3) {
@@ -628,9 +632,20 @@ function blueGridGotAttacked() {
     }
     else if (previousBlockForPlayer2 === 0) {
       if (blueBoatCount !== 0) {
-        gridForPlayer2[cellY][cellX] = 3;
-        // recenterHover(2);
-        blueBoatCount--;
+        if (cellY < 12 && cellY > 0 && cellX < 12 && cellX > 0) {
+          if (!threeBoats) {
+            gridForPlayer2[cellY][cellX] = 3;
+            blueBoatCount--;
+          }
+          if (threeBoats) {
+            if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1){
+              gridForPlayer2[cellY - 1][cellX] = 3;
+              gridForPlayer2[cellY][cellX] = 3;
+              gridForPlayer2[cellY + 1][cellX] = 3;
+              blueBoatCount = blueBoatCount - 3;
+            }
+          }
+        }
       }
       else {
         hoverYForPlayer2 = 0;
@@ -676,6 +691,10 @@ function tryToMoveToPlayer2(newX, newY) {
     hoverXForPlayer2 = newX;
     hoverYForPlayer2 = newY;
     gridForPlayer2[hoverYForPlayer2][hoverXForPlayer2] = 9;
+    if(threeBoats){
+      gridForPlayer2[hoverYForPlayer2 - 1][hoverXForPlayer2] = 9;
+      gridForPlayer2[hoverYForPlayer2 +1 ][hoverXForPlayer2] = 9;
+    }
   }
 }
 
