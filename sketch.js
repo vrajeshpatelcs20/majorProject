@@ -31,6 +31,7 @@ let previousBlockForPlayer1 = 1;
 let previousBlockForPlayer2 = 1;
 let stateOfGame = "loadingScreen";
 let battleshipState = "instructionsOfBattleship";
+let threeBoats = false;
 
 // SnakeGameStuff
 let numSegments = 10;
@@ -347,6 +348,11 @@ function keyPressed() {
         }
       }
     }
+    if (!boatsForBlue && blueInstructions) {
+      if (key === "3") {
+        threeBoats = !threeBoats;
+      }
+    }
   }
 
   // snake game key presses
@@ -604,6 +610,7 @@ function changeGrid() {
 
 // checks if a boat needs to be placed and if the attack missed or landed for blue grid
 function blueGridGotAttacked() {
+  // threeBoats = false;
   if (blueBoatCount === 0) {
     text("All Boats Have Been Placed", width / 4, - 200);
   }
@@ -614,7 +621,6 @@ function blueGridGotAttacked() {
     if (boatsForBlue && !blueInstructions) {
       if (previousBlockForPlayer2 === 0) {
         gridForPlayer2[cellY][cellX] = 1;
-        // recenterHover(2);
         changeGrid();
       }
       else if (previousBlockForPlayer2 === 3) {
@@ -628,9 +634,20 @@ function blueGridGotAttacked() {
     }
     else if (previousBlockForPlayer2 === 0) {
       if (blueBoatCount !== 0) {
-        gridForPlayer2[cellY][cellX] = 3;
-        // recenterHover(2);
-        blueBoatCount--;
+        if (cellY < 12 && cellY > 0 && cellX < 12 && cellX > 0) {
+          if (!threeBoats) {
+            gridForPlayer2[cellY][cellX] = 3;
+            blueBoatCount--;
+          }
+          if (threeBoats) {
+            if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1){
+              gridForPlayer2[cellY - 1][cellX] = 3;
+              gridForPlayer2[cellY][cellX] = 3;
+              gridForPlayer2[cellY + 1][cellX] = 3;
+              blueBoatCount - 3;
+            }
+          }
+        }
       }
       else {
         hoverYForPlayer2 = 0;
@@ -676,6 +693,10 @@ function tryToMoveToPlayer2(newX, newY) {
     hoverXForPlayer2 = newX;
     hoverYForPlayer2 = newY;
     gridForPlayer2[hoverYForPlayer2][hoverXForPlayer2] = 9;
+    if(threeBoats){
+      gridForPlayer2[hoverYForPlayer2 - 1][hoverXForPlayer2] = 9;
+      gridForPlayer2[hoverYForPlayer2 +1 ][hoverXForPlayer2] = 9;
+    }
   }
 }
 
