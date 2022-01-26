@@ -89,7 +89,7 @@ function preload() {
   level8 = loadJSON("assets/level8.json");
   missedShot = loadSound("assets/bruh.mp3");
   hitShot = loadSound("assets/explode.mp3");
-  
+
 }
 
 
@@ -358,8 +358,8 @@ function keyPressed() {
         threeBoatsForBlue = !threeBoatsForBlue;
       }
     }
-    if (!boatsForWhite && whiteInstructions && whiteGrid){
-      if(key === "3"){
+    if (!boatsForWhite && whiteInstructions && whiteGrid) {
+      if (key === "3") {
         threeBoatsForWhite = !threeBoatsForWhite;
       }
     }
@@ -368,31 +368,31 @@ function keyPressed() {
   // snake game key presses
   if (stateOfGame === "snakeGameStart") {
     switch (keyCode) {
-    case 65:
-      if (direction !== "right") {
-        direction = "left";
-      }
-      break;
-    case 68:
-      if (direction !== "left") {
-        direction = "right";
-      }
-      break;
-    case 87:
-      if (direction !== "down") {
-        direction = "up";
-      }
-      break;
-    case 83:
-      if (direction !== "up") {
-        direction = "down";
-      }
-      break;
-    case 81:
-      backR = random(255);
-      backB = random(255);
-      backG = random(255);
-      break;
+      case 65:
+        if (direction !== "right") {
+          direction = "left";
+        }
+        break;
+      case 68:
+        if (direction !== "left") {
+          direction = "right";
+        }
+        break;
+      case 87:
+        if (direction !== "down") {
+          direction = "up";
+        }
+        break;
+      case 83:
+        if (direction !== "up") {
+          direction = "down";
+        }
+        break;
+      case 85:
+        backR = random(255);
+        backB = random(255);
+        backG = random(255);
+        break;
     }
   }
 
@@ -602,15 +602,15 @@ function whiteGridGotAttacked() {
       }
     }
     else if (previousBlockForPlayer1 === 0) {
-      if (cellY < 12 && cellY > 0 && cellX < 12 && cellX > 0){
-        if(!threeBoatsForWhite){
-          if (whiteBoatCount !== 0) {
+      if (whiteBoatCount !== 0) {
+        if (cellY < 12 && cellY > 0 && cellX < 12 && cellX > 0) {
+          if (!threeBoatsForWhite) {
             gridForPlayer1[cellY][cellX] = 3;
             whiteBoatCount--;
           }
         }
-        if(threeBoatsForWhite){
-          if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1){
+        if (threeBoatsForWhite) {
+          if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1) {
             gridForPlayer1[cellY - 1][cellX] = 3;
             gridForPlayer1[cellY][cellX] = 3;
             gridForPlayer1[cellY + 1][cellX] = 3;
@@ -619,10 +619,10 @@ function whiteGridGotAttacked() {
           }
         }
       }
-      else {
-        hoverYForPlayer1 = 0;
-        hoverXForPlayer1 = 0;
-      }
+    }
+    else {
+      hoverYForPlayer1 = 0;
+      hoverXForPlayer1 = 0;
     }
   }
   previousBlockForPlayer1 = 0;
@@ -666,7 +666,7 @@ function blueGridGotAttacked() {
             blueBoatCount--;
           }
           if (threeBoatsForBlue) {
-            if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1){
+            if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1) {
               gridForPlayer2[cellY - 1][cellX] = 3;
               gridForPlayer2[cellY][cellX] = 3;
               gridForPlayer2[cellY + 1][cellX] = 3;
@@ -720,9 +720,9 @@ function tryToMoveToPlayer2(newX, newY) {
     hoverXForPlayer2 = newX;
     hoverYForPlayer2 = newY;
     gridForPlayer2[hoverYForPlayer2][hoverXForPlayer2] = 9;
-    if(threeBoatsForBlue){
+    if (threeBoatsForBlue) {
       gridForPlayer2[hoverYForPlayer2 - 1][hoverXForPlayer2] = 9;
-      gridForPlayer2[hoverYForPlayer2 +1 ][hoverXForPlayer2] = 9;
+      gridForPlayer2[hoverYForPlayer2 + 1][hoverXForPlayer2] = 9;
     }
   }
 }
