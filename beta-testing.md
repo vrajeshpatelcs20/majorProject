@@ -4,4 +4,5 @@ Person 1 === Ethan Deptuck
 
 
 Person 2 === Deepa Patel(Mother)
- - 
+ - add more sound if you can and choose better sound
+ - volume control
