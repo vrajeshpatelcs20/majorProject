@@ -31,7 +31,9 @@ let previousBlockForPlayer1 = 1;
 let previousBlockForPlayer2 = 1;
 let stateOfGame = "loadingScreen";
 let battleshipState = "instructionsOfBattleship";
-let threeBoats = false;
+let threeBoatsForBlue = false;
+let missedShot, hitShot;
+let threeBoatsForWhite = false;
 
 // SnakeGameStuff
 let numSegments = 10;
@@ -85,6 +87,9 @@ function preload() {
   level6 = loadJSON("assets/level6.json");
   level7 = loadJSON("assets/level7.json");
   level8 = loadJSON("assets/level8.json");
+  missedShot = loadSound("assets/bruh.mp3");
+  hitShot = loadSound("assets/explode.mp3");
+  
 }
 
 
@@ -348,9 +353,14 @@ function keyPressed() {
         }
       }
     }
-    if (!boatsForBlue && blueInstructions) {
+    if (!boatsForBlue && blueInstructions && !whiteGrid) {
       if (key === "3") {
-        threeBoats = !threeBoats;
+        threeBoatsForBlue = !threeBoatsForBlue;
+      }
+    }
+    if (!boatsForWhite && whiteInstructions && whiteGrid){
+      if(key === "3"){
+        threeBoatsForWhite = !threeBoatsForWhite;
       }
     }
   }
@@ -549,8 +559,9 @@ function displayGridForPlayer1() {
   if (whiteInstructions) {
     fill("white");
     text("Player 2 Place your Ships", width / 4 * 3, height / 2 - 100);
-    text("You have 5 Boats to places", width / 4 * 3, height / 2);
-    text("Press Z When you are done", width / 4 * 3, height / 2 + 50);
+    text("You have two 1 Sqaure Boats", width / 4 * 3, height / 2);
+    text("and two 3 Sqaure Boats", width / 4 * 3, height / 2 + 100);
+    text("Press Z When you are done", width / 4 * 3, height / 2 + 200);
     text("Player 1 will start", width / 4 * 3, height / 2 + 300);
     fill("black");
   }
@@ -577,11 +588,13 @@ function whiteGridGotAttacked() {
     if (boatsForWhite && !whiteInstructions) {
       if (previousBlockForPlayer1 === 0) {
         gridForPlayer1[cellY][cellX] = 1;
+        missedShot.play();
         changeGrid();
       }
       else if (previousBlockForPlayer1 === 3) {
         gridForPlayer1[cellY][cellX] = 2;
         whiteShipsAlive--;
+        hitShot.play();
       }
       else {
         hoverYForPlayer1 = 0;
@@ -589,9 +602,22 @@ function whiteGridGotAttacked() {
       }
     }
     else if (previousBlockForPlayer1 === 0) {
-      if (whiteBoatCount !== 0) {
-        gridForPlayer1[cellY][cellX] = 3;
-        whiteBoatCount--;
+      if (cellY < 12 && cellY > 0 && cellX < 12 && cellX > 0){
+        if(!threeBoatsForWhite){
+          if (whiteBoatCount !== 0) {
+            gridForPlayer1[cellY][cellX] = 3;
+            whiteBoatCount--;
+          }
+        }
+        if(threeBoatsForWhite){
+          if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1){
+            gridForPlayer1[cellY - 1][cellX] = 3;
+            gridForPlayer1[cellY][cellX] = 3;
+            gridForPlayer1[cellY + 1][cellX] = 3;
+            whiteBoatCount = whiteBoatCount - 3;
+            threeBoatsForWhite = false;
+          }
+        }
       }
       else {
         hoverYForPlayer1 = 0;
@@ -619,11 +645,13 @@ function blueGridGotAttacked() {
     if (boatsForBlue && !blueInstructions) {
       if (previousBlockForPlayer2 === 0) {
         gridForPlayer2[cellY][cellX] = 1;
+        missedShot.play();
         changeGrid();
       }
       else if (previousBlockForPlayer2 === 3) {
         gridForPlayer2[cellY][cellX] = 2;
         blueShipsAlive--;
+        hitShot.play();
       }
       else {
         hoverYForPlayer2 = 0;
@@ -633,16 +661,17 @@ function blueGridGotAttacked() {
     else if (previousBlockForPlayer2 === 0) {
       if (blueBoatCount !== 0) {
         if (cellY < 12 && cellY > 0 && cellX < 12 && cellX > 0) {
-          if (!threeBoats) {
+          if (!threeBoatsForBlue) {
             gridForPlayer2[cellY][cellX] = 3;
             blueBoatCount--;
           }
-          if (threeBoats) {
+          if (threeBoatsForBlue) {
             if (cellY < 11 && cellY > 1 && cellX < 11 && cellX > 1){
               gridForPlayer2[cellY - 1][cellX] = 3;
               gridForPlayer2[cellY][cellX] = 3;
               gridForPlayer2[cellY + 1][cellX] = 3;
               blueBoatCount = blueBoatCount - 3;
+              threeBoatsForBlue = false;
             }
           }
         }
@@ -691,7 +720,7 @@ function tryToMoveToPlayer2(newX, newY) {
     hoverXForPlayer2 = newX;
     hoverYForPlayer2 = newY;
     gridForPlayer2[hoverYForPlayer2][hoverXForPlayer2] = 9;
-    if(threeBoats){
+    if(threeBoatsForBlue){
       gridForPlayer2[hoverYForPlayer2 - 1][hoverXForPlayer2] = 9;
       gridForPlayer2[hoverYForPlayer2 +1 ][hoverXForPlayer2] = 9;
     }
@@ -967,6 +996,7 @@ function displayGridBoxes() {
       rect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
     }
   }
+
   if (counter === 0) {
     stateOfGridGame === blank;
     winner();
